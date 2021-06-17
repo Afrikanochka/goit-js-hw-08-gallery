@@ -69,3 +69,46 @@ const refs = {
   button: document.querySelector('[data-action="close-lightbox"]'),
   imageLightbox: document.querySelector('.lightbox__image'),
 };
+
+const galleryListElem = ({ preview, original, description }) => `
+<li class="gallery__item">
+  <a
+    class="gallery__link"
+    href="${original}"
+  >
+    <img
+      class="gallery__image"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
+    />
+  </a>
+</li>
+`;
+const galleryMarkup = galleryItems.reduce(
+  (acc, item) => acc + galleryListElem(item),
+  '',
+);
+
+refs.gallery.insertAdjacentHTML('afterbegin', galleryMarkup);
+
+refs.gallery.addEventListener('click', onGalleryOpen);
+
+function onGalleryOpen(evt) {
+  evt.preventDefault();
+  if (evt.target.nodeName !== 'IMG') {
+    return;
+  }
+
+  refs.lightbox.classList.add('is-open');
+  refs.imageLightbox.src = evt.target.dataset.source;
+  refs.imageLightbox.alt = evt.target.alt;
+
+  document.addEventListener('keydown', clickOnKey);
+}
+
+function clickOnKey(event) {
+  if (event.code === 'Escape') {
+    refs.lightbox.classList.remove('is-open');
+  }
+}
