@@ -103,9 +103,7 @@ function onGalleryOpen(evt) {
   }
 
   refs.lightbox.classList.add('is-open');
-
-  refs.imageLightbox.src = evt.target.dataset.source;
-  refs.imageLightbox.alt = evt.target.alt;
+  updateAttr(evt.target.dataset.source, evt.target.alt);
 
   document.addEventListener('keydown', clickOnKey);
 }
@@ -120,8 +118,7 @@ refs.button.addEventListener('click', onlightboxClose);
 
 function onlightboxClose() {
   refs.lightbox.classList.remove('is-open');
-  refs.imageLightbox.src = '';
-  refs.imageLightbox.alt = '';
+  updateAttr();
 }
 
 refs.lightboxOverlay.addEventListener('click', onOverlayClose);
@@ -130,4 +127,9 @@ function onOverlayClose(evt) {
   if (evt.currentTarget === evt.target) {
     onlightboxClose();
   }
+}
+//функция для обновления атрибутов
+function updateAttr(src = '', alt = '') {
+  refs.imageLightbox.src = src;
+  refs.imageLightbox.alt = alt;
 }
