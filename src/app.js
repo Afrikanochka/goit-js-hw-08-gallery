@@ -65,7 +65,7 @@ const galleryItems = [
 ];
 const refs = {
   gallery: document.querySelector('.js-gallery'),
-  lightbox: document.querySelector('.lightbox'),
+  lightbox: document.querySelector('.js-lightbox'),
   button: document.querySelector('[data-action="close-lightbox"]'),
   imageLightbox: document.querySelector('.lightbox__image'),
 };
@@ -108,7 +108,20 @@ function onGalleryOpen(evt) {
 }
 
 function clickOnKey(event) {
-  if (event.code === 'Escape') {
+  if (event.code === 'Escape' || event.target === event.currentTarget) {
     refs.lightbox.classList.remove('is-open');
   }
+}
+
+function closeLightbox(event) {
+  if (event.target === event.currentTarget) {
+    document.removeEventListener('keydown', clickOnKey);
+  }
+}
+function onClickClose(evt) {
+  evt.preventDefault();
+  refs.lightbox.classList.remove('is-open');
+  refs.imageLightbox.src = '';
+  refs.imageLightbox.alt = '';
+  document.removeEventListener('keydown', clickOnKey);
 }
